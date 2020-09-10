@@ -16,6 +16,7 @@ using Clinic.System.Service.Services.DoctorServices;
 using Clinic.System.Service.Services.DoctorServiceServices;
 using Clinic.System.Service.Services.PatientServices;
 using Clinic.System.Service.Services.ServiceServices;
+using Clinic.System.Service.Services.VisitServices;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -52,6 +53,7 @@ namespace Clinic.System.UI
             services.AddScoped<IDoctorSer, DoctorSer>();
             services.AddScoped<IServiceSer, ServiceSer>();
             services.AddScoped<IDoctorServiceSer, DoctorServiceSer>();
+            services.AddScoped<IVisitSer, VisitSer>();
 
 
         }
