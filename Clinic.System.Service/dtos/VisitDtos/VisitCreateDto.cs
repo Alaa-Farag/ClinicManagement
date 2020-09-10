@@ -8,7 +8,7 @@ namespace Clinic.System.Service.dtos.VisitDtos
     {
         public PatientDto Patient { get; set; }
         public DateTime VisitDate { get; set; }
-        public List<ServiceDto> MyProperty { get; set; }
+        public List<ServiceDto> Services { get; set; }
 
     }
 }

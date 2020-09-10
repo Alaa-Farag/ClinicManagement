@@ -9,6 +9,7 @@ using Clinic.System.UI.Models;
 using Clinic.System.Interface;
 using Clinic.System.Service.Services.VisitServices;
 using Clinic.System.DAL.UnitOfWorks;
+using Clinic.System.Service.dtos.VisitDtos;
 
 namespace Clinic.System.UI.Controllers
 {
@@ -27,7 +28,14 @@ namespace Clinic.System.UI.Controllers
         {
             var visit = new VisitSer(this.uow);
 
-            visit.Create(new Service.dtos.VisitDtos.VisitCreateDto { Patient = new Service.dtos.VisitDtos.PatientDto { PatientName = "Allaa", PatientId=4 }, VisitDate = DateTime.Now });
+            var input = new VisitCreateDto
+            {
+                Patient = new PatientDto { PatientName = "new Allaa" ,PatientId=4 },
+                VisitDate = DateTime.Now,
+                Services = new List<ServiceDto> { new ServiceDto { DoctorId = 2, ServiceId = 1,Appointment=DateTime.Now.AddDays(1) } , new ServiceDto { DoctorId = 1, ServiceId = 2, Appointment = DateTime.Now.AddDays(2) }, new ServiceDto { DoctorId = 2, ServiceId = 3, Appointment = DateTime.Now.AddDays(3) } }
+            };
+
+            visit.Create(input);
             return View();
         }
 
