@@ -7,5 +7,6 @@ namespace Clinic.System.Interface
 {
     public interface IDoctorRepository : IRepository<Doctor>
     {
+        List<Doctor> GetDoctorsByServiceId(int serviceId);
     }
 }

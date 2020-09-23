@@ -10,6 +10,7 @@ namespace Clinic.System.Service.Services.PatientServices
     {
         List<PatientGetAlldto> GetAll();
         PatientGetByIddto GetbyId(int id);
+        PatientGetByPhoneDto GetByPhone(string phone);
         PatientCreatedto Create(PatientCreatedto patient);
         bool Edit(PatientEditdto patient);
         bool Delete(int id);

@@ -43,6 +43,17 @@ namespace Clinic.System.Service.Services.DoctorServices
             return doctor;
         }
 
+        public List<GetDoctorsByServiceIdDto> GetDoctorsByServiceId(int serviceId)
+        {
+            var result = _doctorRepository.GetDoctorsByServiceId(serviceId)
+                .Select(a=> new GetDoctorsByServiceIdDto {
+                        Id=a.Id ,
+                        Name=a.Name
+                }).ToList();
+
+            return result;
+        }
+
         public DoctorCreateDto Create(DoctorCreateDto doctor)
         {
             if (doctor != null)

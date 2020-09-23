@@ -35,5 +35,18 @@ namespace Clinic.System.DAL.Repositories.DoctorRepo
                          .FirstOrDefault(a => a.Id == id);
             return result;
         }
+
+        public List<Doctor> GetDoctorsByServiceId(int serviceId)
+        {
+            //var result =  db.Doctors.Include(a => a.DoctorServices)
+            //     .ThenInclude(a => a.Service).Where(a => a.DoctorServices
+            //     .Any(s => s.ServiceId == serviceId)).Select(a=> new Doctor {Id = a.Id , Name=a.Name })
+            //     .ToList();
+
+            var result = db.Services.Where(a => a.Id == serviceId)
+                            .SelectMany(a=> a.DoctorServices)
+                            .Select(a=>a.Doctor).Select(a=> new Doctor {Id=a.Id,Name=a.Name }).ToList();
+            return result;
+        }
     }
 }

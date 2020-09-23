@@ -9,6 +9,7 @@ namespace Clinic.System.Service.Services.DoctorServices
     {
         List<DoctorGetAllDto> GetAll();
         DoctorGetByIdDto GetById(int id);
+        List<GetDoctorsByServiceIdDto> GetDoctorsByServiceId(int serviceId);
         DoctorCreateDto Create(DoctorCreateDto doctor);
         bool Edit(DoctorEditDto doctor);
         bool Delete(int id);

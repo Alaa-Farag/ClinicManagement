@@ -26,16 +26,7 @@ namespace Clinic.System.UI.Controllers
 
         public IActionResult Index()
         {
-            var visit = new VisitSer(this.uow);
-
-            var input = new VisitCreateDto
-            {
-                Patient = new PatientDto { PatientName = "new Allaa" ,PatientId=4 },
-                VisitDate = DateTime.Now,
-                Services = new List<ServiceDto> { new ServiceDto { DoctorId = 2, ServiceId = 1,Appointment=DateTime.Now.AddDays(1) } , new ServiceDto { DoctorId = 1, ServiceId = 2, Appointment = DateTime.Now.AddDays(2) }, new ServiceDto { DoctorId = 2, ServiceId = 3, Appointment = DateTime.Now.AddDays(3) } }
-            };
-
-            visit.Create(input);
+            
             return View();
         }
 

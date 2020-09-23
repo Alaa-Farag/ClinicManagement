@@ -48,6 +48,19 @@ namespace Clinic.System.Service.Services.PatientServices
 
         }
 
+        public PatientGetByPhoneDto GetByPhone (string phone)
+        {
+            var res = new PatientGetByPhoneDto();
+            var patient = _patientRepository.GetByPhone(phone);
+            res.Id = patient.Id;
+            res.Name = patient.Name;
+            res.Address = patient.Address;
+            res.Age = patient.Age;
+            res.Email = patient.Email;
+            res.Phone = patient.Phone;
+            return res;
+        }
+
         public PatientCreatedto Create(PatientCreatedto patient)
         {
             var res = new Patient();

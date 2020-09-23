@@ -7,5 +7,6 @@ namespace Clinic.System.Interface
 {
     public interface IPatientRepository : IRepository<Patient>
     {
+        Patient GetByPhone(string phone);
     }
 }
