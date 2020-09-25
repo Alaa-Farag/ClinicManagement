@@ -190,9 +190,9 @@
                     //var obj = JSON.stringify({ 'visit': createVisit});
                     console.log(obj)
                     $.ajax({
-                        type: "POST",
+                        type: "GET",
                         url: "/Visit/SaveVisit",
-                        data: JSON.stringify(patient),
+                        data: {visit : obj},
                         contentType: "application/json;  charset=utf-8",
                         dataType: "json",
                         success: function (res) {

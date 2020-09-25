@@ -10,6 +10,7 @@ using Clinic.System.Service.Services.ServiceServices;
 using Clinic.System.Service.Services.VisitServices;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Newtonsoft.Json;
 
 namespace Clinic.System.UI.Controllers
 {
@@ -62,11 +63,12 @@ namespace Clinic.System.UI.Controllers
             return Json(doctors);
         }
 
-        [HttpPost]
-        public JsonResult SaveVisit (PatientDto patient)//, List<ServiceDto> services)
+        //[HttpPost]
+        public JsonResult SaveVisit (string visit)//, List<ServiceDto> services)
         {
-             //var res=  _visitService.Create(visit);
-            
+            var visitDto = JsonConvert.DeserializeObject<VisitCreateDto>(visit);
+
+            _visitService.Create(visitDto);
             return Json("");
         }
 
