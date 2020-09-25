@@ -52,57 +52,66 @@ namespace Clinic.System.Service.Services.VisitServices
 
         public VisitCreateDto Create(VisitCreateDto visitDto)
         {
-            var servicevisit = new ServiceVisit();
-
             var visit = new Visit();
+
             visit.VisitDate = DateTime.Now;
+
+            MapServiceVisit(visitDto, visit);
 
             if (visitDto.Patient.PatientId != 0)
             {
-
                 var OldPatient = _patientRepository.GetById(visitDto.Patient.PatientId);
+
                 if (OldPatient == null)
                 {
                     throw new Exception($"Patient With Id :{visitDto.Patient.PatientId} is not Exsit");
                 }
+
                 visit.PatientId = visitDto.Patient.PatientId;
-              
             }
 
             else
             {
-                var newpatient = new Patient
-                {
-                    Address = visitDto.Patient.PatientAddress,
-                    Name = visitDto.Patient.PatientName,
-                    Age= visitDto.Patient.PatientAge,
-                    Email= visitDto.Patient.PatientEmail,
-                    Phone = visitDto.Patient.PatientPhone
-                   
-                };
+                Patient newpatient = MapPatient(visitDto.Patient);
+
                 visit.Patient = newpatient;
-              
             }
 
-            
+            _visitRepository.Create(visit);
+
+            _unitOfWork.Complete();
 
             return visitDto;
-
         }
 
-        private Patient CreatePatient(VisitCreateDto visit)
+        private static void MapServiceVisit(VisitCreateDto visitDto, Visit visit)
         {
-            var newpatient = new Patient();
-            newpatient.Name = visit.Patient.PatientName;
-            newpatient.Phone = visit.Patient.PatientPhone;
-            newpatient.Email = visit.Patient.PatientEmail;
-            newpatient.Address = visit.Patient.PatientAddress;
-            newpatient.Age = visit.Patient.PatientAge;
-            _patientRepository.Create(newpatient);
-
-            return newpatient;
+            foreach (var service in visitDto.Services)
+            {
+                visit.Services.Add(new ServiceVisit
+                {
+                    DoctorId = service.DoctorId,
+                    //VisitId = service.VisitId,
+                    ServiceId = service.ServiceId,
+                    Appointment = service.Appointment
+                });
+            }
         }
 
+        private static Patient MapPatient(PatientDto patientDto)
+        {
+            return new Patient
+            {
+                Address = patientDto.PatientAddress,
+                Name = patientDto.PatientName,
+                Age = patientDto.PatientAge,
+                Email = patientDto.PatientEmail,
+                Phone = patientDto.PatientPhone
+
+            };
+        }
+
+        
         public bool Delete (int id)
         {
             _visitRepository.Delete(id);

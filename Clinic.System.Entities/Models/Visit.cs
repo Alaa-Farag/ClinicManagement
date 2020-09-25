@@ -9,5 +9,10 @@ namespace Clinic.System.Entities.Models
         public DateTime VisitDate { get; set; }
         public int PatientId { get; set; }
         public Patient Patient { get; set; }
+        public ICollection<ServiceVisit> Services { get; set; }
+        public Visit()
+        {
+            Services = new List<ServiceVisit>();
+        }
     }
 }

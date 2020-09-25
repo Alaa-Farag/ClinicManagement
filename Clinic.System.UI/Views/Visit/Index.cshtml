@@ -1,0 +1,217 @@
+﻿@model Clinic.System.Service.dtos.VisitDtos.VisitCreateDto
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Meta tags -->
+    <title>Appoint My Doctor Form a Simple Appointment form Responsive Widget :: w3layouts</title>
+    <meta name="keywords" content="Appoint My Doctor Form Responsive widget, Flat Web Templates, Android Compatible web template,
+	Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyEricsson, Motorola web design" />
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- stylesheets -->
+    <!-- google fonts  -->
+    <link href="//fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i" rel="stylesheet">
+    <link href="//fonts.googleapis.com/css?family=Josefin+Sans:300,400,400i,700" rel="stylesheet">
+    <link href="~/css/style.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="w3ls-banner">
+        <div class="heading">
+            <h1>Appoint My Doctor</h1>
+        </div>
+        <div class="container">
+            <div class="heading">
+                <h2>Please Enter Patients Details</h2>
+            </div>
+            <div class="agile-form">
+                
+                    <ul class="field-list">
+                        <li>
+                            <label class="form-label">
+                                <input type="button" class="btn-primary" id="btnSearch" value="Search" />
+                            </label>
+                            <div class="form-input">
+                                <input type="text" id="txtPatientSearch" placeholder="Search patient by phone. " />
+                            </div>
+                        </li>
+                        @Html.HiddenFor(a=>a.Patient.PatientId ,new { id = "PatientId" })
+                        <li>
+                            <label class="form-label">
+                                Full Name
+                                <span class="form-required"> * </span>
+                            </label>
+                            <div class="form-input">
+                                @Html.TextBoxFor(a => a.Patient.PatientName, new { id = "PatientName" })
+                            </div>
+                        </li>
+                        <li>
+                            <label class="form-label">
+                                Mobile Number
+                                <span class="form-required"> * </span>
+                            </label>
+                            <div class="form-input">
+                                @Html.TextBoxFor(a => a.Patient.PatientPhone, new { id = "PatientPhone" })
+
+                            </div>
+                        </li>
+                        <li>
+                            <label class="form-label">
+                                Age
+                                <span class="form-required"> * </span>
+                            </label>
+                            <div class="form-input dob">
+                                <div class="form-input">
+                                    @Html.TextBoxFor(a => a.Patient.PatientAge, new { id = "PatientAge" })
+
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <label class="form-label">
+                                Address
+                                <span class="form-required"> * </span>
+                            </label>
+                            <div class="form-input">
+                                @Html.TextBoxFor(a => a.Patient.PatientAddress, new { id = "PatientAddress" })
+
+                            </div>
+                        </li>
+                        <li>
+                            <label class="form-label">
+                                E-Mail Address
+                                <span class="form-required"> * </span>
+                            </label>
+                            <div class="form-input">
+                                @Html.TextBoxFor(a => a.Patient.PatientEmail, new { id = "PatientEmail" })
+
+                            </div>
+                        </li>
+                        <li>
+                            <label class="form-label">
+                                Service
+                                <span class="form-required"> * </span>
+                            </label>
+                            @Html.DropDownList("ServiceId", "Select Service")
+
+                        </li>
+                        <li>
+                            <label class="form-label">
+                                Doctor
+                                <span class="form-required"> * </span>
+                            </label>
+                            <select id="DoctorId">
+                            </select>
+                        </li>
+                        <li>
+                            <label class="form-label">
+                                Appointment
+                                <span class="form-required"> * </span>
+                            </label>
+                            <div class="form-input">
+                                <input type="datetime-local" id="Appointment" value="" />
+                            </div>
+                        </li>
+
+                    </ul>
+                    <input type="submit" value="Book Appointment" id="Save">
+               
+            </div>
+        </div>
+
+    </div>
+
+    @section  Scripts {
+
+        <script>
+            $(function () {
+
+                $("#btnSearch").click(function () {
+
+                    var phone = $("#txtPatientSearch").val();
+
+                    $.ajax({
+                        url: "/visit/SearchByPhone",
+                        data: { Phone: phone },
+                        success: function (res) {
+
+                            $("#PatientId").val( res.id);
+                            $("#PatientName").val(res.name);
+                            $("#PatientPhone").val( res.phone);
+                            $("#PatientAge").val( res.age);
+                            $("#PatientAddress").val( res.address);
+                            $("#PatientEmail").val( res.email);
+
+                        }
+                    });
+
+
+                });
+                $("#ServiceId").change(function () {
+                    $("#DoctorId").empty();
+
+                    var service = $("#ServiceId").val();
+
+                    $.ajax({
+                        url: "/Visit/GetDoctorsByServiceId",
+                        data: { id: service },
+                        success: function (res) {
+                            $.each(res, function (i, e) {
+                                $("#DoctorId").append('<option value="'+e.id+'">'+e.name+'</option>');
+
+                            });
+                        }
+                    });
+                });
+                $("#Save").click(function () {
+
+                    var id = parseInt( $("#PatientId").val());
+                    var name = $("#PatientName").val();
+                    var phone = $("#PatientPhone").val();
+                    var age = parseInt( $("#PatientAge").val());
+                    var address = $("#PatientAddress").val();
+                    var email = $("#PatientEmail").val();
+                    var doctor = $("#DoctorId").val();
+                    var service = $("#ServiceId").val();
+                    var appointment = $("#Appointment").val();
+
+                    var patient = {
+                        PatientId: id, "PatientName": name, "PatientPhone": phone, "PatientAge": age, "PatientAddress": address, "PatientEmail": email };
+
+                    var services = [{
+                        "DoctorId": doctor, "ServiceId": service, "Appointment": appointment }];
+
+                    var createVisit = { patient: patient, services: services };
+
+                    console.log(createVisit)
+                    console.log(JSON.stringify(patient));
+                    var obj = JSON.stringify(createVisit);
+                    //var obj = JSON.stringify({ 'visit': createVisit});
+                    console.log(obj)
+                    $.ajax({
+                        type: "GET",
+                        url: "/Visit/SaveVisit",
+                        data: {visit : obj},
+                        contentType: "application/json;  charset=utf-8",
+                        dataType: "json",
+                        success: function (res) {
+
+                            window.open("/Home/Index", _self);
+
+                        }
+
+
+                    });
+
+
+
+                });
+
+
+            });
+        </script>
+
+    }
+</body>
+</html>
