@@ -52,12 +52,15 @@ namespace Clinic.System.Service.Services.PatientServices
         {
             var res = new PatientGetByPhoneDto();
             var patient = _patientRepository.GetByPhone(phone);
-            res.Id = patient.Id;
-            res.Name = patient.Name;
-            res.Address = patient.Address;
-            res.Age = patient.Age;
-            res.Email = patient.Email;
-            res.Phone = patient.Phone;
+            if (patient != null)
+            {
+                res.Id = patient.Id;
+                res.Name = patient.Name;
+                res.Address = patient.Address;
+                res.Age = patient.Age;
+                res.Email = patient.Email;
+                res.Phone = patient.Phone;
+            }
             return res;
         }
 

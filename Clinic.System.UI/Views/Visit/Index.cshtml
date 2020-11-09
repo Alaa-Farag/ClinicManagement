@@ -31,6 +31,8 @@
                         <li>
                             <label class="form-label">
                                 <input type="button" class="btn-primary" id="btnSearch" value="Search" />
+                                <input type="button" class="btn-info" id="btnClear" value="Clear" />
+
                             </label>
                             <div class="form-input">
                                 <input type="text" id="txtPatientSearch" placeholder="Search patient by phone. " />
@@ -187,7 +189,6 @@
                     console.log(createVisit)
                     console.log(JSON.stringify(patient));
                     var obj = JSON.stringify(createVisit);
-                    //var obj = JSON.stringify({ 'visit': createVisit});
                     console.log(obj)
                     $.ajax({
                         type: "GET",
@@ -197,7 +198,7 @@
                         dataType: "json",
                         success: function (res) {
 
-                            window.open("/Home/Index", _self);
+                            window.open("/Home/Index", "_self");
 
                         }
 
@@ -205,6 +206,17 @@
                     });
 
 
+
+                });
+                $("#btnClear").click(function () {
+
+                    $("#PatientId").val(0);
+                    $("#PatientName").val("");
+                    $("#PatientPhone").val("");
+                    $("#PatientAge").val("");
+                    $("#PatientAddress").val("");
+                    $("#PatientEmail").val("");
+                    $("#txtPatientSearch").val("");
 
                 });
 
